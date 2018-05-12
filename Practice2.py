@@ -13,8 +13,13 @@ class CreateBookTests(unittest.TestCase):
         ]
 
         for book in books:
-            response = requests.post(self.base_url + 'books/', data=book)
-            self.assertEqual(response.status_code, 201)
+            with self.subTest(book=book):
+                response = requests.post(self.base_url + 'books/', data=book)
+                self.assertEqual(response.status_code, 201)
+                self.assertIn(response.json()['title'], book['title'])
+
+    def tearDown(self):
+        pass
 
 if __name__ == "__main__":
     unittest.main()
